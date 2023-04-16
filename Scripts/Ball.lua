@@ -34,19 +34,19 @@ function Ball:update(dt)
     if self.x <= 24 then
         self.x = 24
         self.dx = -self.dx
-        gSounds['wall-hit']:play()
+        gSounds['wallHit']:play()
     end
 
-    if self.x >= VIRTUAL_WIDTH - 24 then
-        self.x = VIRTUAL_WIDTH - 24
+    if self.x >= VIRTUAL_WIDTH - 32 then
+        self.x = VIRTUAL_WIDTH - 32
         self.dx = -self.dx
-        gSounds['wall-hit']:play()
+        gSounds['wallHit']:play()
     end
 
     if self.y <= 24 then
         self.y = 24
         self.dy = -self.dy
-        gSounds['wall-hit']:play()
+        gSounds['wallHit']:play()
     end
 end
 
