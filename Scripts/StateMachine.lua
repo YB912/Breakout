@@ -11,7 +11,7 @@ function StateMachine:init(states)
         exit = function()
         end
     }
-    self.states = states
+    self.states = states or {}
     self.current = self.empty
 end
 

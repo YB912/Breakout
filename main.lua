@@ -1,4 +1,4 @@
-require 'Scripts.Dependencies'
+require 'Scripts/Dependencies'
 
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -16,7 +16,16 @@ function love.load()
     love.graphics.setFont(gFonts['small'])
 
     gTextures = {
-        ['background'] = love.graphics.newImage('Assets/Graphics/Background.png')
+        ['background'] = love.graphics.newImage('Assets/Graphics/Background.png'),
+        ['bricks'] = love.graphics.newImage('Assets/Graphics/Bricks.png'),
+        ['paddles'] = love.graphics.newImage('Assets/Graphics/Paddles.png'),
+        ['ball'] = love.graphics.newImage('Assets/Graphics/Ball.png'),
+        ['arrows'] = love.graphics.newImage('Assets/Graphics/Arrows.png'),
+        ['particle'] = love.graphics.newImage('Assets/Graphics/Particle.png')
+    }
+
+    gFrames = {
+        ['paddles'] = GenerateQuadsPaddles(gTextures['paddles'])
     }
 
     gSounds = {
@@ -39,13 +48,16 @@ function love.load()
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
-        resizable = true,
-        fullscreen = false
+        fullscreen = false,
+        resizable = true
     })
 
     gStateMachine = StateMachine {
         ['start'] = function()
             return StartState()
+        end,
+        ['play'] = function()
+            return PlayState()
         end
     }
 
@@ -78,8 +90,8 @@ function love.draw()
     local backgroundWidth = gTextures['background']:getWidth()
     local backgroundHeight = gTextures['background']:getHeight()
 
-    love.graphics.draw(gTextures['background'], 0, 0, 0, VIRTUAL_WIDTH / (backgroundWidth - 1),
-        VIRTUAL_HEIGHT / (backgroundHeight - 1))
+    love.graphics.draw(gTextures['background'], 0, 0, 0, VIRTUAL_WIDTH / (backgroundWidth),
+        VIRTUAL_HEIGHT / (backgroundHeight))
 
     gStateMachine:render()
 

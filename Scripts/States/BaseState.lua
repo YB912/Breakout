@@ -6,7 +6,7 @@ function BaseState:render()
 end
 function BaseState:update(dt)
 end
-function BaseState:enter(enteringParams)
+function BaseState:enter()
 end
 function BaseState:exit()
 end
