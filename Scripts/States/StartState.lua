@@ -34,6 +34,7 @@ function StartState:render()
 
     if selected == 1 then
         love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
+        love.graphics.draw(gTextures['arrows'], gFrames['arrows'][1], 400, VIRTUAL_HEIGHT / 2 + 5)
     end
     love.graphics.printf('Start Game', 0, VIRTUAL_HEIGHT / 2, VIRTUAL_WIDTH, 'center')
 
@@ -41,6 +42,7 @@ function StartState:render()
 
     if selected == 2 then
         love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
+        love.graphics.draw(gTextures['arrows'], gFrames['arrows'][1], 400, VIRTUAL_HEIGHT / 2 + 65)
     end
     love.graphics.printf('High Scores', 0, VIRTUAL_HEIGHT / 2 + 60, VIRTUAL_WIDTH, 'center')
 

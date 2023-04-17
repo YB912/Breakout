@@ -53,3 +53,7 @@ function GenerateQuadsBricks(spriteSheet)
     return table.slice(GenerateQuads(spriteSheet, 32, 16), 1, 16)
 end
 
+function GenerateQuadsArrows(spriteSheet)
+    return table.slice(GenerateQuads(spriteSheet, 32, 32), 1, 2)
+end
+

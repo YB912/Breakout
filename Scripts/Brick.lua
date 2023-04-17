@@ -1,4 +1,4 @@
-Brick = Class{}
+Brick = Class {}
 
 function Brick:init(x, y)
     self.tier = 2
@@ -20,6 +20,7 @@ end
 
 function Brick:render()
     if self.enabled then
-        love.graphics.draw(gTextures['bricks'], gFrames['bricks'][1 + ((self.tier - 1) * 4) + self.integrity], self.x, self.y)
+        love.graphics.draw(gTextures['bricks'], gFrames['bricks'][1 + ((self.tier - 1) * 4) + self.integrity], self.x,
+        self.y)
     end
 end
