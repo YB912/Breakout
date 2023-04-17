@@ -1,6 +1,6 @@
 function GenerateQuads(spriteSheet, tileWidth, tileHeight)
     local sheetWidth = spriteSheet:getWidth() / tileWidth
-    local sheetHeight = aspriteSheet:getHeight() / tileHeight
+    local sheetHeight = spriteSheet:getHeight() / tileHeight
 
     local spriteCount = 1
     local sprites = {}
@@ -8,7 +8,7 @@ function GenerateQuads(spriteSheet, tileWidth, tileHeight)
     for y = 0, sheetHeight - 1 do
         for x = 0, sheetWidth - 1 do
             sprites[spriteCount] =
-                love.graphics.newQuad(x * tilewidth, y * tileHeight, tileWidth,
+                love.graphics.newQuad(x * tileWidth, y * tileHeight, tileWidth,
                     tileHeight, spriteSheet:getDimensions())
             spriteCount = spriteCount + 1
         end
@@ -48,3 +48,8 @@ function GenerateQuadsPaddles(spriteSheet)
 
     return quads
 end
+
+function GenerateQuadsBricks(spriteSheet)
+    return table.slice(GenerateQuads(spriteSheet, 32, 16), 1, 16)
+end
+
