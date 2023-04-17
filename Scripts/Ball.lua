@@ -21,8 +21,8 @@ function Ball:collides(target)
 end
 
 function Ball:reset()
-    self.x = VIRTUAL_WIDTH / 2 - 4
-    self.y = VIRTUAL_HEIGHT / 2 - 4
+    self.x = VIRTUAL_WIDTH / 2 - self.width / 2
+    self.y = VIRTUAL_HEIGHT / 2 - self.height / 2
     self.dx = 0
     self.dy = 0
 end

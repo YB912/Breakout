@@ -3,7 +3,7 @@ LevelMaker = Class {}
 function LevelMaker.createMap(level)
     local bricks = {}
     local numRows = math.random(1, 7)
-    local numCols = math.random(8,15)
+    local numCols = math.random(8, 15)
 
     for i = 1, numRows do
         for j = 1, numCols do

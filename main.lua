@@ -8,7 +8,7 @@ function love.load()
     love.window.setTitle('Breakout')
 
     gFonts = {
-        ['small'] = love.graphics.newFont('Assets/Fonts/font.ttf', 12),
+        ['small'] = love.graphics.newFont('Assets/Fonts/smallFont.ttf', 7),
         ['medium'] = love.graphics.newFont('Assets/Fonts/font.ttf', 36),
         ['large'] = love.graphics.newFont('Assets/Fonts/font.ttf', 60)
     }
@@ -21,6 +21,7 @@ function love.load()
         ['paddles'] = love.graphics.newImage('Assets/Graphics/Paddles.png'),
         ['ball'] = love.graphics.newImage('Assets/Graphics/Ball.png'),
         ['arrows'] = love.graphics.newImage('Assets/Graphics/Arrows.png'),
+        ['heart'] = love.graphics.newImage('Assets/Graphics/Heart.png'),
         ['particle'] = love.graphics.newImage('Assets/Graphics/Particle.png')
     }
 
@@ -60,6 +61,12 @@ function love.load()
         end,
         ['play'] = function()
             return PlayState()
+        end,
+        ['serve'] = function()
+            return ServeState()
+        end,
+        ['gameOver'] = function ()
+            return GameOverState()
         end
     }
 
@@ -100,6 +107,20 @@ function love.draw()
     displayFPS()
 
     push:finish()
+end
+
+function renderHealth(health)
+    local healthX = VIRTUAL_WIDTH / 2 - 28
+
+    for i = 1, health do
+        love.graphics.draw(gTextures['heart'], healthX, 6)
+        healthX = healthX + 20
+    end
+end
+
+function renderScore(score)
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 40, 6)
 end
 
 function displayFPS()

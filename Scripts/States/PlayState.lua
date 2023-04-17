@@ -1,17 +1,14 @@
 PlayState = Class { __includes = BaseState }
 
-function PlayState:init()
-    self.paddle = Paddle()
-    self.ball = Ball()
-    self.paused = false
+function PlayState:enter(enteringParams)
+    self.paddle = enteringParams.paddle
+    self.bricks = enteringParams.bricks
+    self.health = enteringParams.health
+    self.score = enteringParams.score
+    self.ball = enteringParams.ball
 
-    self.ball.dx = math.random(-200, 200)
+    self.ball.dx = math.random(-200,200)
     self.ball.dy = math.random(-80, -100)
-
-    self.ball.x = VIRTUAL_WIDTH / 2 - 4
-    self.ball.y = VIRTUAL_HEIGHT - 40
-
-    self.bricks = LevelMaker.createMap()
 end
 
 function PlayState:update(dt)
@@ -33,7 +30,7 @@ function PlayState:update(dt)
 
     if self.ball:collides(self.paddle) then
         self.ball.dy = -self.ball.dy
-        self.ball.y = self.paddle.y - 8
+        self.ball.y = self.paddle.y - self.ball.height
 
         if self.ball.x < self.paddle.x + (self.paddle.width / 2) and self.paddle.dx < 0 then
             self.ball.dx = -60 + -(5 * (self.paddle.x + self.paddle.width / 2 - self.ball.x))
@@ -46,6 +43,7 @@ function PlayState:update(dt)
 
     for k, brick in pairs(self.bricks) do
         if brick.enabled and self.ball:collides(brick) then
+            self.score = self.score + 1000
             brick:hit()
             if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
                 self.ball.dx = -self.ball.dx
@@ -64,9 +62,28 @@ function PlayState:update(dt)
         end
     end
 
+    if self.ball.y >= VIRTUAL_HEIGHT then
+        self.health = self.health - 1
+        gSounds['hurt']:play()
+
+        if self.health == 0 then
+            gStateMachine:change('gameOver', {
+                score = self.score
+            })
+        else
+            gStateMachine:change('serve', {
+                paddle = self.paddle,
+                bricks = self.bricks,
+                health = self.health,
+                score = self.score
+            })
+        end
+    end
+
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
+
 end
 
 function PlayState:render()
@@ -76,6 +93,9 @@ function PlayState:render()
 
     self.paddle:render()
     self.ball:render()
+
+    renderHealth(self.health)
+    renderScore(self.score)
 
     if self.paused then
         love.graphics.setFont(gFonts['large'])

@@ -3,7 +3,6 @@ StartState = Class {
 }
 
 local selected = 1
-local arrowY
 
 function StartState:update(dt)
     if love.keyboard.wasPressed('up') or love.keyboard.wasPressed('down') then
@@ -15,7 +14,12 @@ function StartState:update(dt)
         gSounds['confirm']:play()
 
         if selected == 1 then
-            gStateMachine:change('play')
+            gStateMachine:change('serve', {
+                paddle = Paddle(1),
+                bricks = LevelMaker.createMap(),
+                health = 3,
+                score = 0
+            })
         end
     end
 
