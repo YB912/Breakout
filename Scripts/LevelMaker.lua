@@ -9,7 +9,10 @@ function LevelMaker.createMap(level)
     local maxMaterial = math.min(4, level % 5 + 2)
 
     for i = 1, numRows do
-        local pattern = math.random(7)
+        local pattern = i == 1 and math.random(6) or math.random(7)
+        if i == 1 and pattern % 2 == 0 then
+            pattern = pattern - 1
+        end
         -- 1 ==> Solid
         -- 2 ==> Skip
         -- 3 ==> Alternating

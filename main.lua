@@ -67,6 +67,9 @@ function love.load()
         end,
         ['gameOver'] = function ()
             return GameOverState()
+        end,
+        ['victory'] = function ()
+            return VictoryState()
         end
     }
 
