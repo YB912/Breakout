@@ -1,8 +1,8 @@
 Brick = Class {}
 
 function Brick:init(x, y)
-    self.tier = 2
-    self.integrity = 1
+    self.material = 0
+    self.integrity = 3
 
     self.x = x
     self.y = y
@@ -15,12 +15,16 @@ end
 function Brick:hit()
     gSounds['brickHit2']:play()
 
+    self.integrity = self.integrity - 1
+
+    if self.integrity == -1 then
     self.enabled = false
+    end
 end
 
 function Brick:render()
     if self.enabled then
-        love.graphics.draw(gTextures['bricks'], gFrames['bricks'][1 + ((self.tier - 1) * 4) + self.integrity], self.x,
+        love.graphics.draw(gTextures['bricks'], gFrames['bricks'][1 + ((self.material - 1) * 4) + self.integrity], self.x,
         self.y)
     end
 end
