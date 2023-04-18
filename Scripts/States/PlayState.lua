@@ -32,10 +32,20 @@ function PlayState:update(dt)
         self.ball.dy = -self.ball.dy
         self.ball.y = self.paddle.y - self.ball.height
 
-        if self.ball.x < self.paddle.x + (self.paddle.width / 2) and self.paddle.dx < 0 then
-            self.ball.dx = -60 + -(5 * (self.paddle.x + self.paddle.width / 2 - self.ball.x))
-        elseif self.ball.x > self.paddle.x + (self.paddle.width / 2) and self.paddle.dx > 0 then
-            self.ball.dx = 60 + (5 * math.abs(self.paddle.x + self.paddle.width / 2 - self.ball.x))
+
+
+        if self.ball.x < self.paddle.x + (self.paddle.width / 2) then
+            if self.paddle.dx < 0 then
+                self.ball.dx = -60 + -(5 * (self.paddle.x + self.paddle.width / 2 - self.ball.x))
+            else
+                self.ball.dx = -20 + -(3 * (self.paddle.x + self.paddle.width / 2 - self.ball.x))
+            end
+        elseif self.ball.x > self.paddle.x + (self.paddle.width / 2) then
+            if self.paddle.dx > 0 then
+                self.ball.dx = 60 + (5 * math.abs(self.paddle.x + self.paddle.width / 2 - self.ball.x))
+            else
+                self.ball.dx = 20 + (3 * math.abs(self.paddle.x + self.paddle.width / 2 - self.ball.x))
+            end
         end
 
         gSounds['paddleHit']:play()
@@ -43,7 +53,7 @@ function PlayState:update(dt)
 
     for k, brick in pairs(self.bricks) do
         if brick.enabled and self.ball:collides(brick) then
-            self.score = self.score + 10
+            self.score = brick.integrity == 0 and self.score + 50 or self.score + 10
             brick:hit()
             if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
                 self.ball.dx = -self.ball.dx
@@ -58,7 +68,7 @@ function PlayState:update(dt)
                 self.ball.dy = -self.ball.dy
                 self.ball.y = brick.y + brick.height
             end
-            self.ball.dy = self.ball.dy * 1.02
+            self.ball.dy = self.ball.dy * 1.005
         end
     end
 
@@ -80,6 +90,10 @@ function PlayState:update(dt)
         end
     end
 
+    for k, brick in pairs(self.bricks) do
+        brick:update(dt)
+    end
+
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
@@ -87,8 +101,13 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
+
     for k, brick in pairs(self.bricks) do
         brick:render()
+    end
+
+    for k, brick in pairs(self.bricks) do
+        brick:renderParticles()
     end
 
     self.paddle:render()
