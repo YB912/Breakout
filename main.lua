@@ -9,6 +9,7 @@ function love.load()
 
     gFonts = {
         ['small'] = love.graphics.newFont('Assets/Fonts/smallFont.ttf', 7),
+        ['scores'] = love.graphics.newFont('Assets/Fonts/smallFont.ttf', 10),
         ['medium'] = love.graphics.newFont('Assets/Fonts/font.ttf', 36),
         ['large'] = love.graphics.newFont('Assets/Fonts/font.ttf', 60)
     }
@@ -70,10 +71,18 @@ function love.load()
         end,
         ['victory'] = function ()
             return VictoryState()
+        end,
+        ['highScore'] = function ()
+            return HighScoreState()
+        end,
+        ['entry'] = function ()
+            return EnterHighScoreState()
         end
     }
 
-    gStateMachine:change('start')
+    gStateMachine:change('start', {
+        highScores = loadHighScores()
+    })
 
     love.keyboard.keysPressed = {}
 end
@@ -112,6 +121,46 @@ function love.draw()
     push:finish()
 end
 
+function loadHighScores()
+    love.filesystem.setIdentity('breakoutY')
+
+    if not love.filesystem.getInfo('breakoutY.lst') then
+        local scores = ''
+        for i = 10, 1, -1 do
+            scores = scores .. 'non\n'
+            scores = scores .. tostring(i * 0) .. '\n'
+        end
+
+        love.filesystem.write('breakoutY.lst', scores)
+    end
+
+    local name = true
+    local currentName = nil
+    local counter = 1
+
+    local scores = {}
+
+    for i = 1, 10 do
+        scores[i] = {
+            name = nil,
+            score = nil
+        }
+    end
+
+    for line in love.filesystem.lines('breakoutY.lst') do
+        if name then
+            scores[counter].name = string.sub(line, 1, 3)
+        else
+            scores[counter].score = tonumber(line)
+            counter = counter + 1
+        end
+
+        name = not name
+    end
+
+    return scores
+end
+
 function renderHealth(health)
     local healthX = VIRTUAL_WIDTH / 2 - 28
 
@@ -123,7 +172,8 @@ end
 
 function renderScore(score)
     love.graphics.setFont(gFonts['small'])
-    love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 40, 6)
+    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
+    love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 45, 6)
 end
 
 function displayFPS()

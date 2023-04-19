@@ -2,11 +2,34 @@ GameOverState = Class { __includes = BaseState }
 
 function GameOverState:enter(enteringParams)
     self.score = enteringParams.score
+    self.highScores = enteringParams.highScores
 end
 
 function GameOverState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        gStateMachine:change('start')
+        local highScore = false
+        local scoreIndex = 11
+
+        for i = 10, 1, -1 do
+            local score = self.highScores[i].score or 0
+            if self.score > score then
+                highScoreIndex = i
+                highScore = true
+            end
+        end
+
+        if highScore then
+            gSounds['highScore']:play()
+            gStateMachine:change('entry', {
+                highScores = self.highScores,
+                score = self.score,
+                scoreIndex = highScoreIndex
+            })
+        else
+            gStateMachine:change('start', {
+                highScores = self.highScores
+            })
+        end
     end
 
     if love.keyboard.wasPressed('escape') then
@@ -15,7 +38,7 @@ function GameOverState:update(dt)
 end
 
 function GameOverState:render()
-    love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
+    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Game Over', 0, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
     love.graphics.setFont(gFonts['medium'])
