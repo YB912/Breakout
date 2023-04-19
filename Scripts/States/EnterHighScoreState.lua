@@ -65,31 +65,33 @@ end
 
 function EnterHighScoreState:render()
     love.graphics.setFont(gFonts['medium'])
-    love.graphics.printf('Your score: ' .. tostring(self.score), 0, 30,
+    love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
+    love.graphics.printf('Your score: ' .. tostring(self.score), 0, VIRTUAL_HEIGHT / 8,
         VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(gFonts['large'])
     
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
     if highlightedChar == 1 then
-        love.graphics.setColor(103/255, 1, 1, 1)
+        love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
     end
-    love.graphics.print(string.char(characters[1]), VIRTUAL_WIDTH / 2 - 60, VIRTUAL_HEIGHT / 2)
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.print(string.char(characters[1]), VIRTUAL_WIDTH / 2 - 60, VIRTUAL_HEIGHT / 2 - 30)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
 
     if highlightedChar == 2 then
-        love.graphics.setColor(103/255, 1, 1, 1)
+        love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
     end
-    love.graphics.print(string.char(characters[2]), VIRTUAL_WIDTH / 2 - 20 , VIRTUAL_HEIGHT / 2)
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.print(string.char(characters[2]), VIRTUAL_WIDTH / 2 - 20 , VIRTUAL_HEIGHT / 2 - 30)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
 
     if highlightedChar == 3 then
-        love.graphics.setColor(103/255, 1, 1, 1)
+        love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
     end
-    love.graphics.print(string.char(characters[3]), VIRTUAL_WIDTH / 2 + 20, VIRTUAL_HEIGHT / 2)
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.print(string.char(characters[3]), VIRTUAL_WIDTH / 2 + 20, VIRTUAL_HEIGHT / 2 - 30)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
     
-    love.graphics.setFont(gFonts['small'])
-    love.graphics.printf('Press Enter to confirm', 0, VIRTUAL_HEIGHT - 18,
+    love.graphics.setFont(gFonts['scores'])
+    love.graphics.printf('Press Enter to confirm', 0, VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
 end
 

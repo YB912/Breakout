@@ -66,17 +66,20 @@ function love.load()
         ['serve'] = function()
             return ServeState()
         end,
-        ['gameOver'] = function ()
+        ['gameOver'] = function()
             return GameOverState()
         end,
-        ['victory'] = function ()
+        ['victory'] = function()
             return VictoryState()
         end,
-        ['highScore'] = function ()
+        ['highScore'] = function()
             return HighScoreState()
         end,
-        ['entry'] = function ()
+        ['entry'] = function()
             return EnterHighScoreState()
+        end,
+        ['paddleSelect'] = function()
+            return PaddleSelectState()
         end
     }
 
@@ -161,9 +164,14 @@ function loadHighScores()
     return scores
 end
 
+function renderLevel(level)
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
+    love.graphics.print('Level: ' .. tostring(level), VIRTUAL_WIDTH / 2 - 84, 6)
+end
+
 function renderHealth(health)
     local healthX = VIRTUAL_WIDTH / 2 - 28
-
     for i = 1, health do
         love.graphics.draw(gTextures['heart'], healthX, 6)
         healthX = healthX + 20
@@ -173,7 +181,7 @@ end
 function renderScore(score)
     love.graphics.setFont(gFonts['small'])
     love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
-    love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 45, 6)
+    love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 42, 6)
 end
 
 function displayFPS()

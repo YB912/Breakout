@@ -56,4 +56,3 @@ end
 function GenerateQuadsArrows(spriteSheet)
     return table.slice(GenerateQuads(spriteSheet, 32, 32), 1, 2)
 end
-

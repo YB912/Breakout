@@ -18,13 +18,8 @@ function StartState:update(dt)
         gSounds['confirm']:play()
 
         if selected == 1 then
-            gStateMachine:change('serve', {
-                paddle = Paddle(1),
-                bricks = LevelMaker.createMap(1),
-                health = 1,
-                score = 0,
-                highScores = self.highScores,
-                level = 1
+            gStateMachine:change('paddleSelect', {
+                highScores = self.highScores
             })
         else
             gStateMachine:change('highScore', {
@@ -44,7 +39,7 @@ function StartState:render()
     love.graphics.printf('Breakout', 0, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(gFonts['medium'])
-    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
 
     if selected == 1 then
         love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
@@ -52,7 +47,7 @@ function StartState:render()
     end
     love.graphics.printf('Start Game', 0, VIRTUAL_HEIGHT / 2, VIRTUAL_WIDTH, 'center')
 
-    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
 
     if selected == 2 then
         love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
@@ -60,5 +55,5 @@ function StartState:render()
     end
     love.graphics.printf('High Scores', 0, VIRTUAL_HEIGHT / 2 + 60, VIRTUAL_WIDTH, 'center')
 
-    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
 end

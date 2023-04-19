@@ -29,15 +29,15 @@ function VictoryState:render()
     self.paddle:render()
     self.ball:render()
 
+    renderLevel(self.level)
     renderHealth(self.health)
     renderScore(self.score)
 
-    -- level complete text
     love.graphics.setFont(gFonts['large'])
+    love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
     love.graphics.printf("Level " .. tostring(self.level) .. " complete!",
         0, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')
 
-    -- instructions text
     love.graphics.setFont(gFonts['medium'])
     love.graphics.printf('Press Enter to proceed', 0, VIRTUAL_HEIGHT / 2,
         VIRTUAL_WIDTH, 'center')
