@@ -3,9 +3,11 @@ GameOverState = Class { __includes = BaseState }
 function GameOverState:enter(enteringParams)
     self.score = enteringParams.score
     self.highScores = enteringParams.highScores
+    self.health = enteringParams.health
 end
 
 function GameOverState:update(dt)
+    self.health:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         local highScore = false
         local scoreIndex = 11
@@ -38,6 +40,7 @@ function GameOverState:update(dt)
 end
 
 function GameOverState:render()
+    self.health:render()
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Game Over', 0, VIRTUAL_HEIGHT / 4, VIRTUAL_WIDTH, 'center')

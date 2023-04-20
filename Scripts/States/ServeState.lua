@@ -8,12 +8,16 @@ function ServeState:enter(enteringParams)
     self.highScores = enteringParams.highScores
     self.level = enteringParams.level
     self.ball = Ball()
+
+    gSounds['menu']:stop()
+    gSounds['game']:play()
 end
 
 function ServeState:update(dt)
     self.paddle:update(dt)
     self.ball.x = self.paddle.x + (self.paddle.width / 2) - self.ball.width / 2
     self.ball.y = self.paddle.y - self.ball.height
+    self.health:update(dt)
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         gStateMachine:change('play', {
@@ -40,7 +44,7 @@ function ServeState:render()
     end
     renderLevel(self.level)
     renderScore(self.score)
-    renderHealth(self.health)
+    self.health:render()
     love.graphics.setFont(gFonts['medium'])
     love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
     love.graphics.printf('Press enter to begin', 0, VIRTUAL_HEIGHT / 2, VIRTUAL_WIDTH, 'center')

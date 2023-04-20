@@ -50,6 +50,13 @@ function love.load()
         ['game'] = love.audio.newSource('Assets/Audio/Game.mp3', 'static')
     }
 
+    gSounds['menu']:setLooping(true)
+    gSounds['game']:setLooping(true)
+
+    gSounds['menu']:setVolume(0.5)
+    gSounds['game']:setVolume(0.5)
+
+
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         fullscreen = false,
@@ -88,6 +95,7 @@ function love.load()
     })
 
     love.keyboard.keysPressed = {}
+
 end
 
 function love.keypressed(key)
@@ -166,21 +174,13 @@ end
 
 function renderLevel(level)
     love.graphics.setFont(gFonts['small'])
-    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
     love.graphics.print('Level: ' .. tostring(level), VIRTUAL_WIDTH / 2 - 84, 6)
-end
-
-function renderHealth(health)
-    local healthX = VIRTUAL_WIDTH / 2 - 28
-    for i = 1, health do
-        love.graphics.draw(gTextures['heart'], healthX, 6)
-        healthX = healthX + 20
-    end
 end
 
 function renderScore(score)
     love.graphics.setFont(gFonts['small'])
-    love.graphics.setColor(30 / 255, 30 / 255, 30 / 255, 1)
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
     love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 42, 6)
 end
 

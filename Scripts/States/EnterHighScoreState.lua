@@ -12,6 +12,9 @@ function EnterHighScoreState:enter(enteringParams)
     self.highScores = enteringParams.highScores
     self.score = enteringParams.score
     self.scoreIndex = enteringParams.scoreIndex
+
+    gSounds['game']:stop()
+    gSounds['menu']:play()
 end
 
 function EnterHighScoreState:update(dt)

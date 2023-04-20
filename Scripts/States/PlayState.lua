@@ -11,6 +11,7 @@ function PlayState:enter(enteringParams)
 
     self.ball.dx = math.random(-200, 200)
     self.ball.dy = math.random(-80, -100)
+
 end
 
 function PlayState:update(dt)
@@ -29,6 +30,7 @@ function PlayState:update(dt)
 
     self.paddle:update(dt)
     self.ball:update(dt)
+    self.health:update(dt)
 
     if self.ball:collides(self.paddle) then
         self.ball.dy = -self.ball.dy
@@ -89,13 +91,15 @@ function PlayState:update(dt)
     end
 
     if self.ball.y >= VIRTUAL_HEIGHT then
-        self.health = self.health - 1
+        self.health:lose()
+
         gSounds['hurt']:play()
 
-        if self.health == 0 then
+        if self.health.count == 0 then
             gStateMachine:change('gameOver', {
                 score = self.score,
-                highScores = self.highScores
+                highScores = self.highScores,
+                health = self.health
             })
         else
             gStateMachine:change('serve', {
@@ -116,6 +120,7 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
+
 end
 
 function PlayState:render()
@@ -130,9 +135,10 @@ function PlayState:render()
     self.paddle:render()
     self.ball:render()
 
+
     renderLevel(self.level)
-    renderHealth(self.health)
     renderScore(self.score)
+    self.health:render()
 
     if self.paused then
         love.graphics.setFont(gFonts['large'])

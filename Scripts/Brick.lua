@@ -38,9 +38,9 @@ function Brick:init(x, y)
 
     self.enabled = true
 
-    self.particleSystem = love.graphics.newParticleSystem(gTextures['particle'], 64)
+    self.particleSystem = love.graphics.newParticleSystem(gTextures['particle'], 100)
     self.particleSystem:setParticleLifetime(0.5, 1)
-    self.particleSystem:setLinearAcceleration(-15, 0, 15, 80)
+    self.particleSystem:setLinearAcceleration(-50, 0, 50, 500)
     self.particleSystem:setEmissionArea('uniform', 16, 8)
 end
 
@@ -56,7 +56,7 @@ function Brick:hit()
         0
     )
 
-    self.particleSystem:emit(64)
+    self.particleSystem:emit(100)
 
     self.integrity = self.integrity - 1
 

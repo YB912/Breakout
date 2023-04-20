@@ -6,6 +6,7 @@ local selected = 1
 
 function StartState:enter(enteringParams)
     self.highScores = enteringParams.highScores
+    gSounds['menu']:play()
 end
 
 function StartState:update(dt)
