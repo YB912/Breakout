@@ -17,7 +17,9 @@ end
 
 function StateMachine:change(stateName, enteringParams)
     assert(self.states[stateName])
+    gCurrentState = stateName
     self.current:exit()
+    love.mouse.setCursor(love.mouse.getSystemCursor('arrow'))
     self.current = self.states[stateName]()
     self.current:enter(enteringParams)
 end

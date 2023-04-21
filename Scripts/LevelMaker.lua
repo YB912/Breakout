@@ -2,7 +2,7 @@ LevelMaker = Class {}
 
 function LevelMaker.createMap(level)
     local bricks = {}
-    local numRows = math.max(math.min(5, math.random(math.ceil(level / 3))), 1)
+    local numRows = math.max(math.min(5, math.random(math.ceil(level / 3))), 2)
     local numCols = math.max(math.min(15, math.random(math.ceil(level / 3))), 9)
     numCols = numCols % 2 == 0 and (numCols + 1) or numCols
 

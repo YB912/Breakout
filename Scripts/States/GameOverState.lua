@@ -1,5 +1,7 @@
 GameOverState = Class { __includes = BaseState }
 
+local leftClicked = false
+
 function GameOverState:enter(enteringParams)
     self.score = enteringParams.score
     self.highScores = enteringParams.highScores
@@ -8,7 +10,7 @@ end
 
 function GameOverState:update(dt)
     self.health:update(dt)
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+    if leftClicked or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         local highScore = false
         local scoreIndex = 11
 
@@ -37,6 +39,8 @@ function GameOverState:update(dt)
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
+
+    leftClicked = false
 end
 
 function GameOverState:render()
@@ -47,6 +51,12 @@ function GameOverState:render()
     love.graphics.setFont(gFonts['medium'])
     love.graphics.printf('Final Score: ' .. tostring(self.score), 0, VIRTUAL_HEIGHT / 2,
         VIRTUAL_WIDTH, 'center')
-    love.graphics.printf('Press Enter', 0, VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3,
+    love.graphics.printf('Left-click or press enter', 0, VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
+end
+
+function GameOverState:onClick(button)
+    if button == 1 then
+        leftClicked = true
+    end
 end

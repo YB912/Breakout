@@ -1,13 +1,23 @@
 HighScoreState = Class { __includes = BaseState }
 
+local goBack = false
+
 function HighScoreState:enter(enteringParams)
     self.highScores = enteringParams.highScores
 end
 
+function HighScoreState:onClick(button)
+    goBack = true
+end
+
 function HighScoreState:update(dt)
     if love.keyboard.wasPressed('escape') then
-        gSounds['wallHit']:play()
+        goBack = true
+    end
 
+    if goBack then
+        goBack = false
+        gSounds['wallHit']:play()
         gStateMachine:change('start', {
             highScores = self.highScores
         })
@@ -27,15 +37,15 @@ function HighScoreState:render()
         local score = self.highScores[i].score or '---'
 
         love.graphics.printf(tostring(i) .. '.', VIRTUAL_WIDTH / 3,
-            80 + i * 20, 60, 'left')
+            90 + i * 20, 60, 'left')
 
         love.graphics.printf(name, VIRTUAL_WIDTH / 3 + 38,
-            80 + i * 20, 70, 'right')
+            90 + i * 20, 70, 'right')
 
         love.graphics.printf(tostring(score), VIRTUAL_WIDTH / 2,
-            80 + i * 20, 100, 'right')
+            90 + i * 20, 100, 'right')
     end
 
-    love.graphics.printf("Press Escape to return to the main menu",
+    love.graphics.printf("Press 'Escape' or click to return to the main menu",
         0, VIRTUAL_HEIGHT - 40, VIRTUAL_WIDTH, 'center')
 end

@@ -60,7 +60,7 @@ function love.load()
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         fullscreen = false,
-        resizable = true
+        resizable = false
     })
 
     gStateMachine = StateMachine {
@@ -94,8 +94,11 @@ function love.load()
         highScores = loadHighScores()
     })
 
-    love.keyboard.keysPressed = {}
+    gDialogueBoxEnabled = false
 
+    gDialogueBoxSelection = 0
+
+    love.keyboard.keysPressed = {}
 end
 
 function love.keypressed(key)
@@ -172,6 +175,30 @@ function loadHighScores()
     return scores
 end
 
+function love.mousepressed(x, y, button, istouch, presses)
+    if gCurrentState == 'start' then
+        StartState:onClick(button)
+    elseif gCurrentState == 'highScore' then
+        HighScoreState:onClick(button)
+    elseif gCurrentState == 'paddleSelect' then
+        PaddleSelectState:onClick(button)
+    elseif gCurrentState == 'serve' then
+        ServeState:onClick(button)
+    elseif gCurrentState == 'play' then
+        PlayState:onClick(button)
+    elseif gCurrentState == 'victory' then
+        VictoryState:onClick(button)
+    elseif gCurrentState == 'gameOver' then
+        GameOverState:onClick(button)
+    end
+end
+
+function love.mousemoved(x, y, dx, dy, istouch)
+    if gCurrentState == 'serve' or gCurrentState == 'play' or gCurrentState == 'victory' then
+        gStateMachine.current.paddle:onMouseMove(dx)
+    end
+end
+
 function renderLevel(level)
     love.graphics.setFont(gFonts['small'])
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
@@ -182,6 +209,39 @@ function renderScore(score)
     love.graphics.setFont(gFonts['small'])
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
     love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 42, 6)
+end
+
+function renderDialogueBox()
+    if love.mouse.getY() >= 400 and love.mouse.getY() < 470 then
+        if love.mouse.getX() >= 500 and love.mouse.getX() < 580 then
+            gDialogueBoxSelection = 1
+        elseif love.mouse.getX() >= 700 and love.mouse.getX() < 755 then
+            gDialogueBoxSelection = 2
+        else
+            gDialogueBoxSelection = 0
+        end
+    else
+        gDialogueBoxSelection = 0
+    end
+    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
+    love.graphics.printf('Quit to the main menu?', 0, VIRTUAL_HEIGHT / 2 - 40, VIRTUAL_WIDTH, 'center')
+
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
+
+    if gDialogueBoxSelection == 1 then
+        love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
+    end
+    love.graphics.print('Yes', VIRTUAL_WIDTH / 2 - 70, VIRTUAL_HEIGHT / 2 + 20 )
+
+    love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
+
+    if gDialogueBoxSelection == 2 then
+        love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
+    end
+    love.graphics.print('No', VIRTUAL_WIDTH / 2 + 30, VIRTUAL_HEIGHT / 2 + 20 )
+
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 function displayFPS()
