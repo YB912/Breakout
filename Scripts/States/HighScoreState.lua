@@ -6,10 +6,6 @@ function HighScoreState:enter(enteringParams)
     self.highScores = enteringParams.highScores
 end
 
-function HighScoreState:onClick(button)
-    goBack = true
-end
-
 function HighScoreState:update(dt)
     if love.keyboard.wasPressed('escape') then
         goBack = true
@@ -48,4 +44,9 @@ function HighScoreState:render()
 
     love.graphics.printf("Press 'Escape' or click to return to the main menu",
         0, VIRTUAL_HEIGHT - 40, VIRTUAL_WIDTH, 'center')
+end
+
+-- Event handler for clicking in the play state
+function HighScoreState:onClick(button)
+    goBack = true
 end

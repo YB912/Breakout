@@ -9,11 +9,13 @@ function Health:init()
     self.particleSystem:setColors(130 / 255, 20 / 255, 15 / 255, 1, 50 / 255, 10 / 255, 5 / 255, 0)
 end
 
+-- For when all balls go out or a death powerup is activated
 function Health:lose()
     self.count = self.count - 1
     self.particleSystem:emit(50)
 end
 
+-- For when a health powerup is activated
 function Health:gain()
     if self.count < 3 then
         self.count = self.count + 1
@@ -32,10 +34,13 @@ function Health:render()
         healthX = healthX + 20
     end
     if self.count == 0 then
+        -- Left heart
         love.graphics.draw(self.particleSystem, VIRTUAL_WIDTH / 2 - 20, 12)
     elseif self.count == 1 then
+        -- Middle heart
         love.graphics.draw(self.particleSystem, VIRTUAL_WIDTH / 2 , 12)
     elseif self.count == 2 then
+        -- Right heart
         love.graphics.draw(self.particleSystem, VIRTUAL_WIDTH / 2 + 20, 12)
     end
 end

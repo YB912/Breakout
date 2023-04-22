@@ -9,7 +9,7 @@ function VictoryState:enter(enteringParams)
     self.health = enteringParams.health
     self.ball = enteringParams.ball
 
-    self.paddle.size = 2
+    self.paddle:reset()
 end
 
 function VictoryState:update(dt)
@@ -65,6 +65,7 @@ function VictoryState:render()
     end
 end
 
+-- Event handler for clicking in the play state
 function VictoryState:onClick(button)
     if not gDialogueBoxEnabled then
         if button == 1 then

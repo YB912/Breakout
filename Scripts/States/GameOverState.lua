@@ -6,14 +6,17 @@ function GameOverState:enter(enteringParams)
     self.score = enteringParams.score
     self.highScores = enteringParams.highScores
     self.health = enteringParams.health
+
+    gSounds['score']:play()
 end
 
 function GameOverState:update(dt)
     self.health:update(dt)
-    if leftClicked or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+    if leftClicked or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('escape') then
         local highScore = false
         local scoreIndex = 11
 
+        -- Check if the score is among the top 10 or not
         for i = 10, 1, -1 do
             local score = self.highScores[i].score or 0
             if self.score > score then
@@ -36,10 +39,6 @@ function GameOverState:update(dt)
         end
     end
 
-    if love.keyboard.wasPressed('escape') then
-        love.event.quit()
-    end
-
     leftClicked = false
 end
 
@@ -55,6 +54,7 @@ function GameOverState:render()
         VIRTUAL_WIDTH, 'center')
 end
 
+-- Event handler for clicking in the play state
 function GameOverState:onClick(button)
     if button == 1 then
         leftClicked = true

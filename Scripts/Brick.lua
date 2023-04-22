@@ -1,6 +1,6 @@
 Brick = Class {}
 
-particleColors = {
+local particleColors = {
     -- Glass :
     [1] = {
         ['r'] = 155,
@@ -62,6 +62,7 @@ function Brick:hit()
     end
 end
 
+-- For when the ball type is 2 or 3 (strong ball or wrecking ball)
 function Brick:explode()
     self:emitParticles()
     self.enabled = false

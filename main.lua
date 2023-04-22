@@ -44,7 +44,6 @@ function love.load()
         ['noSelect'] = love.audio.newSource('Assets/Audio/NoSelect.wav', 'static'),
         ['paddleHit'] = love.audio.newSource('Assets/Audio/PaddleHit.wav', 'static'),
         ['pause'] = love.audio.newSource('Assets/Audio/Pause.wav', 'static'),
-        ['recover'] = love.audio.newSource('Assets/Audio/Recover.wav', 'static'),
         ['score'] = love.audio.newSource('Assets/Audio/Score.wav', 'static'),
         ['select'] = love.audio.newSource('Assets/Audio/Select.wav', 'static'),
         ['victory'] = love.audio.newSource('Assets/Audio/Victory.wav', 'static'),
@@ -134,7 +133,7 @@ function love.draw()
 
     gStateMachine:render()
 
-    displayFPS()
+    -- displayFPS()
 
     push:finish()
 end
@@ -179,6 +178,7 @@ function loadHighScores()
     return scores
 end
 
+-- Set different states to listen to mouse buttons being pressed
 function love.mousepressed(x, y, button, istouch, presses)
     if gCurrentState == 'start' then
         StartState:onClick(button)
@@ -197,6 +197,7 @@ function love.mousepressed(x, y, button, istouch, presses)
     end
 end
 
+-- Set the states in which the paddle is visible to listen to mouse being moved
 function love.mousemoved(x, y, dx, dy, istouch)
     if gCurrentState == 'serve' or gCurrentState == 'play' or gCurrentState == 'victory' then
         gStateMachine.current.paddle:onMouseMove(dx)
@@ -210,22 +211,38 @@ function renderLevel(level)
 end
 
 function renderScore(score)
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(gFonts['scores'])
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
-    love.graphics.print('Score: ' .. tostring(score), VIRTUAL_WIDTH / 2 + 42, 6)
+    love.graphics.print(tostring(score), VIRTUAL_WIDTH / 2 + 44, 5)
 end
+
+local enteredButtonArea
 
 function renderDialogueBox()
     if love.mouse.getY() >= 400 and love.mouse.getY() < 470 then
         if love.mouse.getX() >= 500 and love.mouse.getX() < 580 then
-            gDialogueBoxSelection = 1
+            if not enteredButtonArea then
+                gDialogueBoxSelection = 1
+                gSounds['paddleHit']:play()
+                love.mouse.setCursor(love.mouse.getSystemCursor('hand'))
+            end
+            enteredButtonArea = true
         elseif love.mouse.getX() >= 700 and love.mouse.getX() < 755 then
-            gDialogueBoxSelection = 2
+            if not enteredButtonArea then
+                gDialogueBoxSelection = 2
+                gSounds['paddleHit']:play()
+                love.mouse.setCursor(love.mouse.getSystemCursor('hand'))
+            end
+            enteredButtonArea = true
         else
             gDialogueBoxSelection = 0
+            love.mouse.setCursor(love.mouse.getSystemCursor('arrow'))
+            enteredButtonArea = false
         end
     else
         gDialogueBoxSelection = 0
+        love.mouse.setCursor(love.mouse.getSystemCursor('arrow'))
+        enteredButtonArea = false
     end
     love.graphics.setFont(gFonts['medium'])
     love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)

@@ -37,17 +37,13 @@ function PowerUp:applyExtraBall(playState)
     ball.x = playState.paddle.x + playState.paddle.width / 2
     ball.y = playState.paddle.y - ball.height
     ball.dx = math.random(-200, 200) * playState.ballSpeedModifier
-    ball.dy = DEFAULT_BALL_DY * playState.ballSpeedModifier
+    ball.dy = playState.balls[1].dy * playState.ballSpeedModifier
     table.insert(playState.balls, ball)
 end
 
 -- Bigger paddle powerup
 function PowerUp:applyBiggerPaddle(playState)
-    if not (playState.paddle.size == 3) then
-        playState.paddle.size = playState.paddle.size + 1
-        playState.paddle.width = playState.paddle.size == 2 and 96 or 128
-        playState.paddle.x = playState.paddle.x - 16
-    end
+    playState.paddle:grow()
 end
 
 -- Slower powerup
@@ -127,16 +123,14 @@ end
 
 -- Smaller paddle powerup
 function PowerUp:applySmallerPaddle(playState)
-    if not (playState.paddle.size == 1) then
-        playState.paddle.size = playState.paddle.size - 1
-        playState.paddle.width = playState.paddle.size == 1 and 64 or 96
-        playState.paddle.x = playState.paddle.x + 16
-    end
+    playState.paddle:shrink()
 end
 
 -- Death powerup
 function PowerUp:applyDeath(playState)
     playState.health:lose()
+
+    playState.paddle.size = 2
 
     gSounds['hurt']:play()
 

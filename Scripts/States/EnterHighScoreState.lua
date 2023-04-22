@@ -1,5 +1,6 @@
 EnterHighScoreState = Class { __includes = BaseState }
 
+-- Use ASCII code of the characters to simplify iteration
 local characters = {
     [1] = 65,
     [2] = 65,
@@ -45,6 +46,7 @@ function EnterHighScoreState:update(dt)
         })
     end
 
+    -- Select one of the three characters with left and right arrow keys
     if love.keyboard.wasPressed('left') and highlightedChar > 1 then
         highlightedChar = highlightedChar - 1
         gSounds['select']:play()
@@ -53,6 +55,7 @@ function EnterHighScoreState:update(dt)
         gSounds['select']:play()
     end
 
+    -- Change the character with up and down keys
     if love.keyboard.wasPressed('up') then
         characters[highlightedChar] = characters[highlightedChar] + 1
         if characters[highlightedChar] > 90 then
@@ -73,7 +76,7 @@ function EnterHighScoreState:render()
         VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(gFonts['large'])
-    
+
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
     if highlightedChar == 1 then
         love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
@@ -84,7 +87,7 @@ function EnterHighScoreState:render()
     if highlightedChar == 2 then
         love.graphics.setColor(80 / 255, 120 / 255, 230 / 255, 1)
     end
-    love.graphics.print(string.char(characters[2]), VIRTUAL_WIDTH / 2 - 20 , VIRTUAL_HEIGHT / 2 - 30)
+    love.graphics.print(string.char(characters[2]), VIRTUAL_WIDTH / 2 - 20, VIRTUAL_HEIGHT / 2 - 30)
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
 
     if highlightedChar == 3 then
@@ -92,9 +95,8 @@ function EnterHighScoreState:render()
     end
     love.graphics.print(string.char(characters[3]), VIRTUAL_WIDTH / 2 + 20, VIRTUAL_HEIGHT / 2 - 30)
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
-    
+
     love.graphics.setFont(gFonts['scores'])
     love.graphics.printf('Press Enter to confirm', 0, VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
 end
-

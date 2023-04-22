@@ -11,34 +11,20 @@ function PaddleSelectState:enter(params)
     self.highScores = params.highScores
 end
 
-function PaddleSelectState:onClick(button)
-    if button == 1 then
-        if hovered == 1 then
-            PaddleSelectState:changeSelection('left')
-        elseif hovered == 2 then
-            PaddleSelectState:confirmSelection()
-        elseif hovered == 3 then
-            PaddleSelectState:changeSelection('right')
-        end
-    elseif button == 2 then
-        gSounds['wallHit']:play()
-        gStateMachine:change('start', {
-            highScores = loadHighScores()
-        })
-    end
-end
-
 function PaddleSelectState:update(dt)
+    -- Iterate over the paddles with left and right arrow keys
     if love.keyboard.wasPressed('left') then
         PaddleSelectState:changeSelection('left')
     elseif love.keyboard.wasPressed('right') then
         PaddleSelectState:changeSelection('right')
     end
 
+    -- Confirm selection with enter key
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
         PaddleSelectState:confirmSelection()
     end
 
+    -- Define button hover areas
     if love.mouse.getY() >= 350 and love.mouse.getY() < 395 then
         if love.mouse.getX() >= 445 and love.mouse.getX() < 500 then
             hovered = 1
@@ -101,6 +87,25 @@ function PaddleSelectState:render()
         VIRTUAL_WIDTH, 'center')
 end
 
+-- Event handler for clicking in the play state
+function PaddleSelectState:onClick(button)
+    if button == 1 then
+        if hovered == 1 then
+            PaddleSelectState:changeSelection('left')
+        elseif hovered == 2 then
+            PaddleSelectState:confirmSelection()
+        elseif hovered == 3 then
+            PaddleSelectState:changeSelection('right')
+        end
+    elseif button == 2 then
+        gSounds['wallHit']:play()
+        gStateMachine:change('start', {
+            highScores = loadHighScores()
+        })
+    end
+end
+
+-- Helper function for changing the selection with mouse click
 function PaddleSelectState:changeSelection(direction)
     if direction == 'left' then
         if currentPaddle == 1 then
@@ -121,13 +126,12 @@ end
 
 function PaddleSelectState:confirmSelection()
     gSounds['confirm']:play()
-        gStateMachine:change('serve', {
-            paddle = Paddle(currentPaddle),
-            bricks = LevelMaker.createMap(1),
-            health = Health(),
-            score = 0,
-            highScores = self.highScores,
-            level = 1
-        })
+    gStateMachine:change('serve', {
+        paddle = Paddle(currentPaddle),
+        bricks = LevelMaker.createMap(1),
+        health = Health(),
+        score = 0,
+        highScores = self.highScores,
+        level = 1
+    })
 end
-

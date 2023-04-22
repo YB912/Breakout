@@ -15,11 +15,13 @@ end
 
 function StartState:update(dt)
 
+    -- Toggle the menu choices with up and down keys
     if love.keyboard.wasPressed('up') or love.keyboard.wasPressed('down') then
         selected = selected == 1 and 2 or 1
         gSounds['paddleHit']:play()
     end
 
+    -- Confirm the selection with enter key
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         gSounds['confirm']:play()
 
@@ -30,6 +32,7 @@ function StartState:update(dt)
         end
     end
 
+    -- Change the state according to the selection
     if confirmed == 1 then
         love.mouse.setCursor(love.mouse.getSystemCursor('arrow'))
         gStateMachine:change('paddleSelect', {
@@ -44,6 +47,7 @@ function StartState:update(dt)
 
     confirmed = 0
 
+    -- Define button hover areas
     if love.mouse.getX() >= VIRTUAL_WIDTH - 140 and love.mouse.getX() < VIRTUAL_WIDTH + 135 then
         
         if love.mouse.getY() >= VIRTUAL_HEIGHT and love.mouse.getY() < VIRTUAL_HEIGHT + 65 then
@@ -100,6 +104,7 @@ function StartState:render()
     love.graphics.setColor(20 / 255, 20 / 255, 20 / 255, 1)
 end
 
+-- Event handler for clicking in the play state
 function StartState:onClick(button)
     if button == 1 then
         if enteredButtonArea then

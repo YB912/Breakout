@@ -144,10 +144,10 @@ function PlayState:update(dt)
         for k, powerup in pairs(self.powerups) do
             if powerup:collides(self.paddle) or powerup.y > VIRTUAL_HEIGHT then
                 self.score = self.score + 100
-                gSounds['powerup']:stop()
-                gSounds['powerup']:play()
                 powerup.toBeRemoved = true
                 if powerup:collides(self.paddle) then
+                    gSounds['powerup']:stop()
+                    gSounds['powerup']:play()
                     if powerup.type == 1 then
                         PowerUp:applyExtraBall(self)
                     elseif powerup.type == 2 then
@@ -267,12 +267,13 @@ end
 -- Event handler for clicking in the play state
 function PlayState:onClick(button)
     if gDialogueBoxEnabled then
-        gDialogueBoxEnabled = false
         if gDialogueBoxSelection == 1 then
+            gDialogueBoxEnabled = false
             gStateMachine:change('start', {
                 highScores = loadHighScores()
             })
         elseif gDialogueBoxSelection == 2 then
+            gDialogueBoxEnabled = false
             gSounds['pause']:play()
             love.mouse.setVisible(false)
         end

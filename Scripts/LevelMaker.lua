@@ -2,8 +2,10 @@ LevelMaker = Class {}
 
 function LevelMaker.createMap(level)
     local bricks = {}
-    local numRows = math.max(math.min(5, math.random(math.ceil(level / 3))), 2)
-    local numCols = math.max(math.min(15, math.random(math.ceil(level / 3))), 9)
+    -- Between 3 and 6 rows and 11 and 15 columns according to the current level
+    local numRows = math.max(math.min(6, math.random(math.ceil(level / 2))), 3)
+    local numCols = math.max(math.min(15, math.random(math.ceil(level / 2))), 11)
+    -- Make sure the number of columns is odd to ensure symmetry
     numCols = numCols % 2 == 0 and (numCols + 1) or numCols
 
     local maxMaterial = math.min(4, level % 5 + 2)

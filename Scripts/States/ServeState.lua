@@ -15,6 +15,8 @@ function ServeState:enter(enteringParams)
     gSounds['menu']:stop()
     gSounds['game']:play()
 
+    self.paddle:reset()
+
     love.mouse.setVisible(false)
 end
 
@@ -38,12 +40,14 @@ function ServeState:update(dt)
             })
         end
 
+        -- Quitting dialogue box
         if love.keyboard.wasPressed('escape') then
             gSounds['pause']:play()
             gDialogueBoxEnabled = true
             love.mouse.setVisible(true)
         end
     else
+        -- Quitting dialogue box
         if love.keyboard.wasPressed('escape') then
             gSounds['pause']:play()
             gDialogueBoxEnabled = false
@@ -72,6 +76,7 @@ function ServeState:render()
     end
 end
 
+-- Event handler for clicking in the play state
 function ServeState:onClick(button)
     if button == 1 then
         if not gDialogueBoxEnabled then
