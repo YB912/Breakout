@@ -4,10 +4,12 @@ local leftClicked = false
 
 function VictoryState:enter(enteringParams)
     self.level = enteringParams.level
-    self.score = enteringParams.score
+    self.score = enteringParams.score + VICTORY_SCORE
     self.paddle = enteringParams.paddle
     self.health = enteringParams.health
     self.ball = enteringParams.ball
+
+    self.paddle.size = 2
 end
 
 function VictoryState:update(dt)

@@ -39,7 +39,7 @@ end
 
 function Paddle:render()
     love.graphics.draw(gTextures['paddles'], gFrames['paddles'][self.size + 3 * (self.skin - 1)],
-        self.x, self.y)
+        math.ceil(self.x), math.ceil(self.y))
 end
 
 function Paddle:onMouseMove(dx) 

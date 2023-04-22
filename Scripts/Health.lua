@@ -14,6 +14,12 @@ function Health:lose()
     self.particleSystem:emit(50)
 end
 
+function Health:gain()
+    if self.count < 3 then
+        self.count = self.count + 1
+    end
+end
+
 function Health:update(dt)
     self.particleSystem:update(dt)
 end

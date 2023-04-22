@@ -1,8 +1,13 @@
 Ball = Class {}
 
-function Ball:init()
-    self.width = 8
-    self.height = 8
+function Ball:init(type)
+    self.x = -20
+    self.y = -20
+    self.width = 16
+    self.height = 16
+
+    self.type = type or 1
+    self.enabled = true
 
     self.dy = 0
     self.dx = 0
@@ -28,28 +33,32 @@ function Ball:reset()
 end
 
 function Ball:update(dt)
-    self.x = self.x + self.dx * dt
-    self.y = self.y + self.dy * dt
+    if self.enabled then
+        self.x = self.x + self.dx * dt
+        self.y = self.y + self.dy * dt
 
-    if self.x <= 24 then
-        self.x = 24
-        self.dx = -self.dx
-        gSounds['wallHit']:play()
-    end
+        if self.x <= 24 then
+            self.x = 24
+            self.dx = -self.dx
+            gSounds['wallHit']:play()
+        end
 
-    if self.x >= VIRTUAL_WIDTH - 32 then
-        self.x = VIRTUAL_WIDTH - 32
-        self.dx = -self.dx
-        gSounds['wallHit']:play()
-    end
+        if self.x >= VIRTUAL_WIDTH - (24 + self.width) then
+            self.x = VIRTUAL_WIDTH - (24 + self.width)
+            self.dx = -self.dx
+            gSounds['wallHit']:play()
+        end
 
-    if self.y <= 24 then
-        self.y = 24
-        self.dy = -self.dy
-        gSounds['wallHit']:play()
+        if self.y <= 24 then
+            self.y = 24
+            self.dy = -self.dy
+            gSounds['wallHit']:play()
+        end
     end
 end
 
 function Ball:render()
-    love.graphics.draw(gTextures['ball'], self.x, self.y)
+    if self.enabled then
+        love.graphics.draw(gTextures['balls'], gFrames['balls'][self.type], math.ceil(self.x), math.ceil(self.y))
+    end
 end

@@ -20,16 +20,19 @@ function love.load()
         ['background'] = love.graphics.newImage('Assets/Graphics/Background.png'),
         ['bricks'] = love.graphics.newImage('Assets/Graphics/Bricks.png'),
         ['paddles'] = love.graphics.newImage('Assets/Graphics/Paddles.png'),
-        ['ball'] = love.graphics.newImage('Assets/Graphics/Ball.png'),
+        ['balls'] = love.graphics.newImage('Assets/Graphics/Balls.png'),
         ['arrows'] = love.graphics.newImage('Assets/Graphics/Arrows.png'),
         ['heart'] = love.graphics.newImage('Assets/Graphics/Heart.png'),
-        ['particle'] = love.graphics.newImage('Assets/Graphics/Particle.png')
+        ['particle'] = love.graphics.newImage('Assets/Graphics/Particle.png'),
+        ['powerups'] = love.graphics.newImage('Assets/Graphics/Powerups.png')
     }
 
     gFrames = {
         ['paddles'] = GenerateQuadsPaddles(gTextures['paddles']),
+        ['balls'] = GenerateQuadsBalls(gTextures['balls']),
         ['bricks'] = GenerateQuadsBricks(gTextures['bricks']),
-        ['arrows'] = GenerateQuadsArrows(gTextures['arrows'])
+        ['arrows'] = GenerateQuadsArrows(gTextures['arrows']),
+        ['powerups'] = GenerateQuadsPowerups(gTextures['powerups'])
     }
 
     gSounds = {
@@ -46,6 +49,7 @@ function love.load()
         ['select'] = love.audio.newSource('Assets/Audio/Select.wav', 'static'),
         ['victory'] = love.audio.newSource('Assets/Audio/Victory.wav', 'static'),
         ['wallHit'] = love.audio.newSource('Assets/Audio/WallHit.wav', 'static'),
+        ['powerup'] = love.audio.newSource('Assets/Audio/Powerup.wav', 'static'),
         ['menu'] = love.audio.newSource('Assets/Audio/Menu.mp3', 'static'),
         ['game'] = love.audio.newSource('Assets/Audio/Game.mp3', 'static')
     }
@@ -53,8 +57,8 @@ function love.load()
     gSounds['menu']:setLooping(true)
     gSounds['game']:setLooping(true)
 
-    gSounds['menu']:setVolume(0.5)
-    gSounds['game']:setVolume(0.5)
+    gSounds['menu']:setVolume(0.3)
+    gSounds['game']:setVolume(0.3)
 
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {

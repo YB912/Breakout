@@ -28,7 +28,7 @@ particleColors = {
 }
 
 function Brick:init(x, y)
-    self.material = 0
+    self.material = 1
     self.integrity = 3
 
     self.x = x
@@ -45,19 +45,8 @@ function Brick:init(x, y)
 end
 
 function Brick:hit()
-    self.particleSystem:setColors(
-        particleColors[self.material].r / 255,
-        particleColors[self.material].g / 255,
-        particleColors[self.material].b / 255,
-        55 * (self.material + 1) / 255,
-        particleColors[self.material].r / 255,
-        particleColors[self.material].g / 255,
-        particleColors[self.material].b / 255,
-        0
-    )
 
-    self.particleSystem:emit(100)
-
+    self:emitParticles()
     self.integrity = self.integrity - 1
 
     if self.integrity == -1 then
@@ -71,6 +60,28 @@ function Brick:hit()
         gSounds['brickHit1']:stop()
         gSounds['brickHit1']:play()
     end
+end
+
+function Brick:explode()
+    self:emitParticles()
+    self.enabled = false
+    gSounds['brickHit1']:stop()
+    gSounds['brickHit1']:play()
+end
+
+function Brick:emitParticles()
+    self.particleSystem:setColors(
+        particleColors[self.material].r / 255,
+        particleColors[self.material].g / 255,
+        particleColors[self.material].b / 255,
+        55 * (self.material + 1) / 255,
+        particleColors[self.material].r / 255,
+        particleColors[self.material].g / 255,
+        particleColors[self.material].b / 255,
+        0
+    )
+
+    self.particleSystem:emit(100)
 end
 
 function Brick:update(dt)

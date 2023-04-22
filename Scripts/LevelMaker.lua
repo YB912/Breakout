@@ -48,7 +48,7 @@ function LevelMaker.createMap(level)
                 skipFlag = not skipFlag
             end
 
-            brick = Brick(((j - 1) * (32 + 2)) + 66 + (15 - numCols) * 17, 28 + i * 18)
+            brick = Brick(((j - 1) * (32 + 2)) + 66 + (15 - numCols) * 17, 40 + i * 18)
 
             if pattern == 1 or pattern == 2 then
                 brick.material = Material1

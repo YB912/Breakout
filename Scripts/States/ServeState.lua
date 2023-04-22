@@ -10,7 +10,7 @@ function ServeState:enter(enteringParams)
     self.score = enteringParams.score
     self.highScores = enteringParams.highScores
     self.level = enteringParams.level
-    self.ball = Ball()
+    self.ball = Ball(1)
 
     gSounds['menu']:stop()
     gSounds['game']:play()
